@@ -1,45 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [city, setCity] = useState("")
-  const [country, setCountry] = useState("")
+  const [userText, setUserText] = useState("");
 
-  const handleCityChange = (event) => setCity(event.target.value);
-  const handleCountryChange = (event) => setCountry(event.target.value);
-
-  function handleReset() {
-    setCity("");
-    setCountry("");
+  function handleUserKeyPress(event) {
+    const { key, keyCode } = event;
+    if (keyCode === 32 || (keyCode >= 65 && keyCode <= 90));
+    setUserText(`${userText} ${key}`)
   }
 
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    }
+  })
+
   return (
-    <div className="App">
-      <form>
-        <div>
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={handleCityChange}>
-          </input>
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Country"
-            value={country}
-            onChange={handleCountryChange}>
-          </input>
-        </div>
-        <div>
-          <p>You live in {`${city}, ${country}`}</p>
-          <br />
-          <button onClick={handleReset}>Reset</button>
-        </div>
-      </form>
+    <div className={"App"}>
+      <h1>Geronimo!</h1>
+      <blockquote>{userText}</blockquote>
     </div>
+
   );
 }
+
 
 export default App;
