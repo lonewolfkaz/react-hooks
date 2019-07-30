@@ -1,26 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
-  const [userText, setUserText] = useState("");
+function useInput() {
+  const [value, setValue] = useState("")
 
-  function handleUserKeyPress(event) {
-    const { key, keyCode } = event;
-    if (keyCode === 32 || (keyCode >= 65 && keyCode <= 90));
-    setUserText(`${userText} ${key}`)
+  function onChange(event) {
+    setValue(event.target.value);
   }
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleUserKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleUserKeyPress);
-    }
-  })
+  return {
+    value,
+    onChange
+  }
 
+}
+
+function App() {
   return (
     <div className={"App"}>
-      <h1>Geronimo!</h1>
-      <blockquote>{userText}</blockquote>
+      <form>
+        <input
+          type="text"
+          placeholder="Name"
+          {...useInput()}
+        />
+        <input
+          type="text"
+          placeholder="Surname"
+          {...useInput()}
+        />
+        <input
+          type="number"
+          placeholder="Age"
+          {...useInput()}
+        />
+
+      </form>
     </div>
 
   );
